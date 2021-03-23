@@ -4,6 +4,10 @@ let x = canvas.width/2;
 let y = canvas.height-30;
 let dx=1;
 let dy=1;
+const paddleHeight=10;
+const paddleWidth=75;
+let paddleX= canvas.width/2
+
 
 function drawBrick() {
   for (let j = 10; j < 150; j += 30) {
@@ -17,6 +21,13 @@ function drawBrick() {
       ctx.closePath();
     }
   }
+}
+function drawPaddle(){
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height -paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle="rgb(15, 204, 153)";
+    ctx.fill();
+    ctx.closePath();
 }
 function drawBall() {
   ctx.beginPath();
@@ -36,6 +47,8 @@ function draw(){
     if(y>canvas.height-5 || y<5){
         dy=-dy;
     }
+    drawBrick();
+    drawPaddle();
 }
 function init(){
     setInterval(draw,10)
