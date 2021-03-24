@@ -1,13 +1,12 @@
 const canvas = document.getElementById("brickCanvas");
 const ctx = canvas.getContext("2d");
-let x = canvas.width/2;
-let y = canvas.height-30;
-let dx=1;
-let dy=1;
-const paddleHeight=10;
-const paddleWidth=75;
-let paddleX= canvas.width/2
-
+let x = canvas.width / 2;
+let y = canvas.height - 30;
+let dx = 1;
+let dy = 1;
+const paddleHeight = 10;
+const paddleWidth = 75;
+let paddleX = canvas.width / 2;
 
 function drawBrick() {
   for (let j = 10; j < 150; j += 30) {
@@ -22,12 +21,12 @@ function drawBrick() {
     }
   }
 }
-function drawPaddle(){
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height -paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle="rgb(15, 204, 153)";
-    ctx.fill();
-    ctx.closePath();
+function drawPaddle() {
+  ctx.beginPath();
+  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = "rgb(15, 204, 153)";
+  ctx.fill();
+  ctx.closePath();
 }
 function drawBall() {
   ctx.beginPath();
@@ -36,21 +35,41 @@ function drawBall() {
   ctx.fill();
   ctx.closePath();
 }
-function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawBall();
-    x+=dx;
-    y+=dy;
-    if(x>canvas.width-5 || x<5){
-        dx=-dx;
-    }
-    if(y>canvas.height-5 || y<5){
-        dy=-dy;
-    }
-    drawBrick();
-    drawPaddle();
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawBrick();
+  drawPaddle();
+  x += dx;
+  y += dy;
+  if (x > canvas.width - 5 || x < 5) {
+    dx = -dx;
+  }
+  if ( y < 5) {
+    dy = -dy;
+  }
+  if ((y > canvas.height - 5-paddleHeight)&&(paddleX<x)&&(x<paddleX+paddleWidth)){
+    dy = -dy;
+  }
+  drawBall();
 }
-function init(){
-    setInterval(draw,10)
+function keypressed(e) {
+  if (e.code == "ArrowRight") {
+    if (paddleX < canvas.width - paddleWidth) {
+      paddleX += 15;
+    } else {
+      paddleX = canvas.width - paddleWidth;
+    }
+  } else if (e.code == "ArrowLeft") {
+    if (paddleX > 0) {
+      paddleX -= 15;
+    } else {
+      paddleX = 0;
+    }
+  }
+}
+function init() {
+  document.addEventListener("keydown", keypressed);
+  setInterval(draw, 10);
 }
 init();
