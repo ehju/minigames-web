@@ -7,7 +7,11 @@ let dy = 1;
 const paddleHeight = 10;
 const paddleWidth = 75;
 let paddleX = canvas.width / 2;
-
+let gameProcess;
+function gameOver(){
+  alert("GameOver")
+  clearInterval(gameProcess);  
+}
 function drawBrick() {
   for (let j = 10; j < 150; j += 30) {
     for (let i = 10; i < 410; i += 65) {
@@ -51,6 +55,9 @@ function draw() {
   if ((y > canvas.height - 5-paddleHeight)&&(paddleX<x)&&(x<paddleX+paddleWidth)){
     dy = -dy;
   }
+  if (y>canvas.height){
+    gameOver()
+  }
   drawBall();
 }
 function keypressed(e) {
@@ -70,6 +77,6 @@ function keypressed(e) {
 }
 function init() {
   document.addEventListener("keydown", keypressed);
-  setInterval(draw, 10);
+  gameProcess=setInterval(draw, 10);
 }
 init();
